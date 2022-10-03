@@ -1,56 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useState } from "react";
+import { Grid, Box } from "@mui/material";
+import { Header } from "./features/Header";
+import { UrlForm } from "./features/UrlForm";
+import { GeneralList } from "./features/GeneralList";
+import { useQuery } from "@apollo/client";
+import { usePagination } from "./hooks/usePagination";
+import { GET_PAGINATION_INFO } from "./query/get_pagination_info";
 
 function App() {
+  const [page, setPage] = useState<number>(1);
+  const GET_SHORT_URL_LIST = usePagination(page);
+  const { loading, error, data } = useQuery(GET_SHORT_URL_LIST);
+  const { data: paginationReq } = useQuery(GET_PAGINATION_INFO);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Header />
+      <Box mx="auto" p={3} sx={{ maxWidth: "1200px", boxSizing: "border-box" }}>
+        <Grid container columnSpacing={10}>
+          <Grid item xs={5}>
+            <UrlForm />
+          </Grid>
+          <Grid item xs={7}>
+            {data && (
+              <GeneralList
+                setPage={setPage}
+                urlListProp={data}
+                paginationReq={paginationReq}
+                currentPage={page}
+                loading={loading}
+                error={error}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Box>
     </div>
   );
 }
