@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import { Typography, Grid, Link, Chip } from "@mui/material";
 import { GrayWrapper } from "./GrayWrapper";
 
-export type UrlListItemProps = {
+export type UrlListItemType = {
   id: number;
   url: string;
   short_url: string;
   clicks: number;
 };
 
-export const UrlListItem: FC<UrlListItemProps> = ({
+export const UrlListItem: FC<UrlListItemType> = ({
   id,
   url,
   short_url,
@@ -29,10 +29,14 @@ export const UrlListItem: FC<UrlListItemProps> = ({
     >
       <Grid xs={5} item>
         <Grid container wrap="nowrap" direction="row" spacing={2}>
-          <Grid item>
+          <Grid xs={2} item>
             <Typography>{id}</Typography>
           </Grid>
-          <Grid sx={{ overflow: "hidden", textOverflow: "ellipsis" }} item>
+          <Grid
+            xs={10}
+            sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
+            item
+          >
             <Link sx={{ fontWeight: "bold", fontSize: 18 }} href={url}>
               {url}
             </Link>

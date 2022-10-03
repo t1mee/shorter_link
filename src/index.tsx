@@ -1,10 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-// import { Provider } from "react-redux";
+import { Provider } from "react-redux";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./normalize.module.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { store } from "./store";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -16,11 +17,12 @@ const client = new ApolloClient({
 
 root.render(
   <React.StrictMode>
-    {/* <Provider store={store}> */}
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-    ,{/* </Provider> */}
+    <Provider store={store}>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+      ,
+    </Provider>
   </React.StrictMode>,
 );
 

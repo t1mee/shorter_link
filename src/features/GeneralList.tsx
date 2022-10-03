@@ -1,11 +1,12 @@
 import React, { FC } from "react";
 import { UrlList } from "./UrlList";
 import { Pagination } from "@mui/material";
-import { UrlListItemProps } from "../components/UrlListItem";
+
 import { ApolloError } from "@apollo/client";
+import { UrlListItemType } from "../components/UrlListItem";
 
 type GeneralListProps = {
-  urlListProp: { short_urls: { data: UrlListItemProps[] } };
+  urlListProp: { short_urls: { data: UrlListItemType[] } };
   setPage: (page: number) => void;
   paginationReq:
     | {
@@ -15,7 +16,6 @@ type GeneralListProps = {
       }
     | undefined;
   currentPage: number;
-  loading: boolean;
   error: ApolloError | undefined;
 };
 
@@ -25,14 +25,12 @@ export const GeneralList: FC<GeneralListProps> = ({
   paginationReq,
   currentPage,
   error,
-  loading,
 }) => {
   const { data: urlList } = urlListProp.short_urls;
   const handleChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(+value);
   };
 
-  if (loading) return <>loading</>;
   if (error) return <>error</>;
 
   if (paginationReq) {

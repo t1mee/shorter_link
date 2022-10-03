@@ -1,15 +1,21 @@
 import React, { FC } from "react";
 import { List, ListItem, ListSubheader } from "@mui/material";
-import { UrlListItem, UrlListItemProps } from "../components/UrlListItem";
+import { UrlListItem, UrlListItemType } from "../components/UrlListItem";
 
-type UrlListProps = {
+export type UrlListType = {
   title: string;
-  urlList: UrlListItemProps[];
+  urlList: UrlListItemType[] | [];
 };
 
-export const UrlList: FC<UrlListProps> = ({ title, urlList }) => {
+export const UrlList: FC<UrlListType> = ({ title, urlList }) => {
   return (
-    <List subheader={<ListSubheader component="div">{title}</ListSubheader>}>
+    <List
+      sx={{
+        height: { lg: "80vh", xs: "auto" },
+        overflowY: "auto",
+      }}
+      subheader={<ListSubheader component="div">{title}</ListSubheader>}
+    >
       {urlList.map((urlProps) => (
         <ListItem key={urlProps.id} disablePadding>
           <UrlListItem {...urlProps} />
